@@ -74,4 +74,4 @@ ALLOWED_CONTAINER_TYPES="MESOS,DOCKER"
 LOG_LEVEL="INFO"
 
 # Any args you want to add to the aurora-scheduler invocation:
-EXTRA_SCHEDULER_ARGS="-enable_beta_updater=true"
+EXTRA_SCHEDULER_ARGS=""
