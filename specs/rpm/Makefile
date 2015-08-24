@@ -10,20 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-GIT_COMMIT ?= HEAD
-
-USING_GIT ?= $(shell git status >/dev/null 2>&1 && echo 'true' || echo 'false')
-ifeq ($(USING_GIT),true)
-	VERSION_SUFFIX := .$(shell git rev-parse --short $(GIT_COMMIT))
-else
-	VERSION_SUFFIX :=
-endif
-
 CURRENT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-TOPDIR ?= $(CURRENT_DIR)/../../..
-DIST_DIR ?= $(TOPDIR)/dist
+TOPDIR ?= /scratch/src
+DIST_DIR ?= /dist
 RPM_TOPDIR ?= $(DIST_DIR)
 
 DATETIME ?= $(shell date +%Y%m%d%H%M)
@@ -39,7 +29,7 @@ PHONY: all nightly_version release_version get_source_target clean mkdir srpm ni
 all: release_rpm
 
 nightly_version:
-	$(eval AURORA_VERSION := $(AURORA_VERSION).$(DATETIME)$(VERSION_SUFFIX))
+	$(eval AURORA_VERSION := $(AURORA_VERSION).$(DATETIME))
 
 release_version:
 	$(eval AURORA_VERSION := $(AURORA_VERSION))
@@ -53,20 +43,9 @@ mkdir: clean
 	mkdir -p $(RPM_TOPDIR)/rpmbuild/RPMS
 	mkdir -p $(RPM_TOPDIR)/rpmbuild/SOURCES
 	mkdir -p $(RPM_TOPDIR)/rpmbuild/SRPMS
+	cp /src.tar.gz $(SOURCE_TARGET)
 
-tar_source: mkdir
-	if [[ "$(USING_GIT)" == 'true' ]]; then \
-		cd `git rev-parse --show-toplevel` && git archive --format=tar --prefix=aurora/ $(GIT_COMMIT) | gzip > $(SOURCE_TARGET); \
-	else \
-		tmp_dir=`mktemp -d '/tmp/aurorabuild.XXXXXX'`; \
-		mkdir $${tmp_dir}/aurora; \
-		cp -r $(TOPDIR)/* $${tmp_dir}/aurora; \
-		cd $${tmp_dir}; \
-		tar cvzf $(SOURCE_TARGET) aurora; \
-		rm -rf $${tmp_dir}; \
-	fi
-
-srpm: tar_source
+srpm: mkdir
 	rpmbuild $(RPM_OPTS) \
 		--define "_topdir $(RPM_TOPDIR)" \
 		--define "_builddir %{_topdir}/rpmbuild/BUILD" \
@@ -79,7 +58,7 @@ srpm: tar_source
 		--define "MESOS_VERSION $(MESOS_VERSION)" \
 		--nodeps -bs aurora.spec
 
-rpm: tar_source
+rpm: mkdir
 	rpmbuild $(RPM_OPTS) \
 		--define "_topdir $(RPM_TOPDIR)" \
 		--define "_builddir %{_topdir}/rpmbuild/BUILD" \

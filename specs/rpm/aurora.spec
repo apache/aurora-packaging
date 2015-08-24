@@ -37,10 +37,6 @@
 %global JAVA_VERSION 1.8.0
 %endif
 
-%if %{?!MESOS_BASEURL:1}0
-%global MESOS_BASEURL https://archive.apache.org/dist/mesos
-%endif
-
 %if %{?!MESOS_VERSION:1}0
 %global MESOS_VERSION 0.22.0
 %endif
@@ -141,7 +137,7 @@ state of all running tasks.
 
 
 %prep
-%setup -n %{name}
+%setup -n apache-%{name}-%{version}
 
 
 %build
@@ -163,40 +159,27 @@ export PATH=/usr/lib/jvm/java-1.8.0/bin:${PATH}
 wget %{GRADLE_BASEURL}/gradle-%{GRADLE_VERSION}-bin.zip
 unzip gradle-%{GRADLE_VERSION}-bin.zip
 
-# Creates Pants directory where we'll store our native Mesos Python eggs.
-mkdir -p .pants.d/python/eggs/
-
-# Builds mesos-native and mesos-interface eggs if not currently packaged.
-wget "%{MESOS_BASEURL}/%{MESOS_VERSION}/mesos-%{MESOS_VERSION}.tar.gz"
-tar xvzf mesos-%{MESOS_VERSION}.tar.gz
-pushd mesos-%{MESOS_VERSION}
-./configure --disable-java
-make
-find . -name '*.egg' -exec cp -v {} ../.pants.d/python/eggs/ \;
-popd
-
 # Builds the Aurora scheduler.
 ./gradle-%{GRADLE_VERSION}/bin/gradle installDist
 
+# Configures pants to use our distributed platform-specific eggs.
+# This avoids building mesos to produce them.
+export PANTS_CONFIG_OVERRIDE=/pants.ini
+
 # Builds Aurora client PEX binaries.
-./pants binary src/main/python/apache/aurora/kerberos:kaurora
-./pants binary src/main/python/apache/aurora/kerberos:kaurora_admin
+./pants binary src/main/python/apache/aurora/client/cli:kaurora
+mv dist/kaurora.pex dist/aurora.pex
+./pants binary src/main/python/apache/aurora/admin:kaurora_admin
+mv dist/kaurora_admin.pex dist/aurora_admin.pex
 
 # Builds Aurora Thermos and GC executor PEX binaries.
-./pants binary src/main/python/apache/aurora/executor:thermos_executor
+./pants binary src/main/python/apache/aurora/executor/bin:thermos_executor
 ./pants binary src/main/python/apache/aurora/tools:thermos
-./pants binary src/main/python/apache/thermos/runner:thermos_runner
+./pants binary src/main/python/apache/thermos/bin:thermos_runner
 ./pants binary src/main/python/apache/aurora/tools:thermos_observer
 
 # Packages the Thermos runner within the Thermos executor.
-python <<EOF
-import contextlib
-import zipfile
-with contextlib.closing(zipfile.ZipFile('dist/thermos_executor.pex', 'a')) as zf:
-  zf.writestr('apache/aurora/executor/resources/__init__.py', '')
-  zf.write('dist/thermos_runner.pex', 'apache/aurora/executor/resources/thermos_runner.pex')
-EOF
-
+build-support/embed_runner_in_executor.py
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -223,10 +206,6 @@ cp -r dist/install/aurora-scheduler/* %{buildroot}%{_prefix}/lib/%{name}
 for pex_binary in %{PEX_BINARIES}; do
   install -m 755 dist/${pex_binary}.pex %{buildroot}%{_bindir}/${pex_binary}
 done
-
-# Strip the "k" from Kerberized client binaries.
-mv %{buildroot}%{_bindir}/kaurora %{buildroot}%{_bindir}/aurora
-mv %{buildroot}%{_bindir}/kaurora_admin %{buildroot}%{_bindir}/aurora_admin
 
 # Installs all support scripting.
 %if 0%{?fedora} || 0%{?rhel} > 6
