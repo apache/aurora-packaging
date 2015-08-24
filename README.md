@@ -18,7 +18,8 @@ installation before proceeding.
 
     ```
     ./build-artifact.sh builder/deb/ubuntu-trusty \
-      ~/Downloads/apache-aurora-0.9.0.tar.gz
+      ~/Downloads/apache-aurora-0.9.0.tar.gz \
+      0.9.0
     ```
 
 When this completes, debs will be placed in `dist/builder/deb/ubuntu-trusty/`.

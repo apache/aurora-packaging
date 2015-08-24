@@ -19,27 +19,30 @@ print_available_builders() {
   find builder -name Dockerfile | sed "s/\/Dockerfile$//"
 }
 
-if [[ $# -ne 2 ]]; then
-  echo "usage: $0 BUILDER RELEASE_TAR"
+if [[ $# -ne 3 ]]; then
+  echo "usage: $0 BUILDER RELEASE_TAR AURORA_VERSION"
   echo 'Where BUILDER is a builder directory in:'
   print_available_builders
   exit 1
 else
   BUILDER_DIR=$1
   RELEASE_TAR=$2
+  AURORA_VERSION=$3
 fi
 
 IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
+echo "Using docker image $IMAGE_NAME"
 docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
 
 ARTIFACT_DIR="$(pwd)/dist/$BUILDER_DIR"
 mkdir -p $ARTIFACT_DIR
 docker run \
   --rm \
+  -e AURORA_VERSION=$AURORA_VERSION \
   -v "$(pwd)/specs:/specs:ro" \
   -v "$(realpath $RELEASE_TAR):/src.tar.gz:ro" \
   -v "$ARTIFACT_DIR:/dist" \
   -t "$IMAGE_NAME" /build.sh
 
-echo 'Produced artifacts:'
+echo "Produced artifacts in $ARTIFACT_DIR:"
 ls $ARTIFACT_DIR

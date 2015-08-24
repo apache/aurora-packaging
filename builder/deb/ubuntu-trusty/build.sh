@@ -24,7 +24,7 @@ cp -R /specs/debian .
 
 dch \
   -b \
-  -v $(cat .auroraversion)~SNAPSHOT \
+  -v $AURORA_VERSION \
   -u low --maintmaint \
   "Apache Aurora package builder <dev@aurora.apache.org> $(date -R)"
 
