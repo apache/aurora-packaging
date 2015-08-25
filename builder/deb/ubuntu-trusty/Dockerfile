@@ -40,12 +40,12 @@ RUN curl -O http://people.apache.org/~jfarrell/thrift/0.9.1/contrib/deb/ubuntu/1
   && dpkg --install $THRIFT_DEB \
   && rm $THRIFT_DEB
 
-# Install gradle 2.5.
+# Install gradle.
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd gradle-packaging \
   && apt-get install -y ruby ruby-dev unzip wget \
-  && gem install fpm && ./gradle-mkdeb.sh 2.5 \
-  && dpkg -i gradle-2.5_2.5-2_all.deb \
+  && gem install fpm && ./gradle-mkdeb.sh 2.6 \
+  && dpkg -i gradle-2.6_2.6-2_all.deb \
   && cd .. && rm -rf gradle-packaging
 
 ADD build.sh /build.sh
