@@ -34,6 +34,10 @@ IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
 echo "Using docker image $IMAGE_NAME"
 docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
 
+function realpath {
+  echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+}
+
 ARTIFACT_DIR="$(pwd)/dist/$BUILDER_DIR"
 mkdir -p $ARTIFACT_DIR
 docker run \
