@@ -22,11 +22,15 @@ tar --strip-components 1 -C . -xf /src.tar.gz
 
 cp -R /specs/debian .
 
+export DEBFULLNAME='Apache Aurora'
+export DEBEMAIL='dev@aurora.apache.org'
+
 dch \
-  -b \
-  -v $AURORA_VERSION \
-  -u low --maintmaint \
+  --newversion $AURORA_VERSION \
+  --package apache-aurora \
+  --urgency medium \
   "Apache Aurora package builder <dev@aurora.apache.org> $(date -R)"
+dch --release ''
 
 dpkg-buildpackage -uc -b -tc
 
