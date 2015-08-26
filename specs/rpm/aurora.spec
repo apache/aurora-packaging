@@ -59,6 +59,17 @@ License:       ASL 2.0
 URL:           https://%{name}.apache.org/
 
 Source0:       https://github.com/apache/%{name}/archive/%{version}/%{name}.tar.gz
+Source1:       aurora.service
+Source2:       thermos-observer.service
+Source3:       aurora.init.sh
+Source4:       thermos-observer.init.sh
+Source5:       aurora.startup.sh
+Source6:       thermos-observer.startup.sh
+Source7:       aurora.sysconfig
+Source8:       thermos-observer.sysconfig
+Source9:       aurora.logrotate
+Source10:      thermos-observer.logrotate
+Source11:      clusters.json
 
 BuildRequires: apr-devel
 BuildRequires: cyrus-sasl-devel
@@ -209,23 +220,23 @@ done
 
 # Installs all support scripting.
 %if 0%{?fedora} || 0%{?rhel} > 6
-install -m 644 build-support/packaging/rpm/%{name}.service %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service
-install -m 644 build-support/packaging/rpm/thermos-observer.service %{buildroot}%{_sysconfdir}/systemd/system/thermos-observer.service
+install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/systemd/system
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/systemd/system/thermos-observer.service
 %else
-install -m 755 build-support/packaging/rpm/%{name}.init.sh %{buildroot}%{_sysconfdir}/init.d/%{name}
-install -m 755 build-support/packaging/rpm/thermos-observer.init.sh %{buildroot}%{_sysconfdir}/init.d/thermos-observer
+install -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/aurora
+install -m 755 %{SOURCE4} %{buildroot}%{_sysconfdir}/init.d/thermos-observer
 %endif
 
-install -m 755 build-support/packaging/rpm/%{name}.startup.sh %{buildroot}%{_bindir}/%{name}-scheduler-startup
-install -m 755 build-support/packaging/rpm/thermos-observer.startup.sh %{buildroot}%{_bindir}/thermos-observer-startup
+install -m 755 %{SOURCE5} %{buildroot}%{_bindir}/%{name}-scheduler-startup
+install -m 755 %{SOURCE6} %{buildroot}%{_bindir}/thermos-observer-startup
 
-install -m 644 build-support/packaging/rpm/%{name}.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-install -m 644 build-support/packaging/rpm/thermos-observer.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/thermos-observer
+install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/sysconfig/thermos-observer
 
-install -m 644 build-support/packaging/rpm/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-install -m 644 build-support/packaging/rpm/thermos-observer.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/thermos-observer
+install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/logrotate.d/thermos-observer
 
-install -m 644 build-support/packaging/rpm/clusters.json %{buildroot}%{_sysconfdir}/%{name}/clusters.json
+install -m 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/%{name}/clusters.json
 
 
 %pre

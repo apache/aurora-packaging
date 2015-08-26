@@ -44,6 +44,7 @@ mkdir: clean
 	mkdir -p $(RPM_TOPDIR)/rpmbuild/SOURCES
 	mkdir -p $(RPM_TOPDIR)/rpmbuild/SRPMS
 	cp /src.tar.gz $(SOURCE_TARGET)
+	cp SOURCES/* $(RPM_TOPDIR)/rpmbuild/SOURCES
 
 srpm: mkdir
 	rpmbuild $(RPM_OPTS) \

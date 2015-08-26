@@ -25,6 +25,9 @@ cp -R /specs/debian .
 export DEBFULLNAME='Apache Aurora'
 export DEBEMAIL='dev@aurora.apache.org'
 
+# Replace underscores in version ID.
+export AURORA_VERSION=$(echo $AURORA_VERSION | tr '_' '-')
+
 dch \
   --newversion $AURORA_VERSION \
   --package apache-aurora \

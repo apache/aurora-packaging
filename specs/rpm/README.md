@@ -14,7 +14,6 @@ How to build using Make and rpmbuild
 1. Install the necessary build dependencies via yum-builddep:
 
 ```bash
-cd build-support/packaging/rpm
 sudo yum install -y make rpm-build yum-utils
 make srpm
 sudo yum-builddep ../../../dist/rpmbuild/SRPMS/*
