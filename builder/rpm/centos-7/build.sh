@@ -23,6 +23,9 @@ tar --strip-components 1 -C src -xf /src.tar.gz
 cp -R /specs/rpm .
 cd rpm
 
+# Replace hyphens in version ID.
+export AURORA_VERSION=$(echo $AURORA_VERSION | tr '-' '_')
+
 make srpm
 yum-builddep -y ../../../dist/rpmbuild/SRPMS/*
 make rpm
