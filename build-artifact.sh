@@ -19,34 +19,55 @@ print_available_builders() {
   find builder -name Dockerfile | sed "s/\/Dockerfile$//"
 }
 
-if [[ $# -ne 3 ]]; then
-  echo "usage: $0 BUILDER RELEASE_TAR AURORA_VERSION"
-  echo 'Where BUILDER is a builder directory in:'
-  print_available_builders
-  exit 1
-else
-  BUILDER_DIR=$1
-  RELEASE_TAR=$2
-  AURORA_VERSION=$3
-fi
-
-IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
-echo "Using docker image $IMAGE_NAME"
-docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
-
-function realpath {
+realpath() {
   echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
 }
 
-ARTIFACT_DIR="$(pwd)/dist/$BUILDER_DIR"
-mkdir -p $ARTIFACT_DIR
-docker run \
-  --rm \
-  -e AURORA_VERSION=$AURORA_VERSION \
-  -v "$(pwd)/specs:/specs:ro" \
-  -v "$(realpath $RELEASE_TAR):/src.tar.gz:ro" \
-  -v "$ARTIFACT_DIR:/dist" \
-  -t "$IMAGE_NAME" /build.sh
+run_build() {
+  BUILDER_DIR=$1
+  RELEASE_TAR=$2
+  AURORA_VERSION=$3
 
-echo "Produced artifacts in $ARTIFACT_DIR:"
-ls $ARTIFACT_DIR
+  IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
+  echo "Using docker image $IMAGE_NAME"
+  docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
+
+  ARTIFACT_DIR="$(pwd)/dist/$BUILDER_DIR"
+  mkdir -p $ARTIFACT_DIR
+  docker run \
+    --rm \
+    -e AURORA_VERSION=$AURORA_VERSION \
+    -v "$(pwd)/specs:/specs:ro" \
+    -v "$(realpath $RELEASE_TAR):/src.tar.gz:ro" \
+    -v "$ARTIFACT_DIR:/dist" \
+    -t "$IMAGE_NAME" /build.sh
+
+  echo "Produced artifacts in $ARTIFACT_DIR:"
+  ls $ARTIFACT_DIR
+}
+
+case $# in
+  2)
+    for builder in $(print_available_builders); do
+      run_build $builder $1 $2
+      echo $builder
+    done
+    ;;
+
+  3)
+    run_build "$@"
+    ;;
+
+  *)
+    echo 'usage:'
+    echo 'to build all artifacts:'
+    echo "  $0 RELEASE_TAR AURORA_VERSION"
+    echo
+    echo 'or to build a specific artifact:'
+    echo "  $0 BUILDER RELEASE_TAR AURORA_VERSION"
+    echo
+    echo 'Where BUILDER is a builder directory in:'
+    print_available_builders
+    exit 1
+    ;;
+esac
