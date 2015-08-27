@@ -116,8 +116,8 @@ Summary: Mesos executor that runs and monitors tasks scheduled by the Aurora sch
 Group: Applications/System
 
 Requires: cyrus-sasl
-Requires: daemonize
 %if 0%{?rhel} && 0%{?rhel} < 7
+Requires: daemonize
 Requires: docker-io
 %else
 Requires: docker
