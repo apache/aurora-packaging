@@ -337,5 +337,5 @@ exit 0
 
 
 %changelog
-* Tue Apr 14 2015 Steve Salevan <steve.salevan@gmail.com>
-- Initial specfile writeup.
+* Mon Aug 31 2015 Bill Farner <wfarner@apache.org> 0.9.0-1.el7
+- Apache Aurora 0.9.0
