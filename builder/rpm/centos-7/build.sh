@@ -29,3 +29,7 @@ export AURORA_VERSION=$(echo $AURORA_VERSION | tr '-' '_')
 make srpm
 yum-builddep -y ../../../dist/rpmbuild/SRPMS/*
 make rpm
+
+yum -y install createrepo
+cd ../../../dist/rpmbuild/RPMS/x86_64
+createrepo .
