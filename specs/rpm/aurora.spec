@@ -50,15 +50,15 @@
 %endif
 
 
-Name:          aurora
+Name:          aurora-scheduler
 Version:       %{AURORA_VERSION}
 Release:       1%{?dist}.aurora
 Summary:       A Mesos framework for scheduling and executing long-running services and cron jobs.
 Group:         Applications/System
 License:       ASL 2.0
-URL:           https://%{name}.apache.org/
+URL:           https://aurora.apache.org/
 
-Source0:       https://github.com/apache/%{name}/archive/%{version}/%{name}.tar.gz
+Source0:       https://github.com/apache/aurora/archive/%{version}/aurora.tar.gz
 Source1:       aurora.service
 Source2:       thermos-observer.service
 Source3:       aurora.init.sh
@@ -106,7 +106,7 @@ long-running services that take advantage of Mesos' scalability, fault-tolerance
 resource isolation.
 
 
-%package client
+%package -n aurora-tools
 Summary: A client for scheduling services against the Aurora scheduler
 Group: Development/Tools
 
@@ -117,12 +117,12 @@ Requires: python27
 Requires: python
 %endif
 
-%description client
+%description -n aurora-tools
 A set of command-line applications used for interacting with and administering Aurora
 schedulers.
 
 
-%package thermos
+%package -n aurora-executor
 Summary: Mesos executor that runs and monitors tasks scheduled by the Aurora scheduler
 Group: Applications/System
 
@@ -140,7 +140,7 @@ Requires: python27
 Requires: python
 %endif
 
-%description thermos
+%description -n aurora-executor
 Thermos a simple process management framework used for orchestrating dependent processes
 within a single Mesos chroot.  It works in tandem with Aurora to ensure that tasks
 scheduled by it are properly executed on Mesos slaves and provides a Web UI to monitor the
@@ -148,7 +148,7 @@ state of all running tasks.
 
 
 %prep
-%setup -n apache-%{name}-%{version}
+%setup -n apache-aurora-%{version}
 
 
 %build
@@ -197,21 +197,21 @@ rm -rf $RPM_BUILD_ROOT
 
 # Builds installation directory structure.
 mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_docdir}/%{name}-%{version}
-mkdir -p %{buildroot}%{_prefix}/lib/%{name}
+mkdir -p %{buildroot}%{_docdir}/aurora-%{version}
+mkdir -p %{buildroot}%{_prefix}/lib/aurora
 mkdir -p %{buildroot}%{_sharedstatedir}
-mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
-mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
+mkdir -p %{buildroot}%{_localstatedir}/lib/aurora
+mkdir -p %{buildroot}%{_localstatedir}/log/aurora
 mkdir -p %{buildroot}%{_localstatedir}/log/thermos
 mkdir -p %{buildroot}%{_localstatedir}/run/thermos
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/aurora
 mkdir -p %{buildroot}%{_sysconfdir}/init.d
 mkdir -p %{buildroot}%{_sysconfdir}/systemd/system
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 
 # Installs the Aurora scheduler that was just built into /usr/lib/aurora.
-cp -r dist/install/aurora-scheduler/* %{buildroot}%{_prefix}/lib/%{name}
+cp -r dist/install/aurora-scheduler/* %{buildroot}%{_prefix}/lib/aurora
 
 # Installs all PEX binaries.
 for pex_binary in %{PEX_BINARIES}; do
@@ -227,57 +227,57 @@ install -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/aurora
 install -m 755 %{SOURCE4} %{buildroot}%{_sysconfdir}/init.d/thermos-observer
 %endif
 
-install -m 755 %{SOURCE5} %{buildroot}%{_bindir}/%{name}-scheduler-startup
+install -m 755 %{SOURCE5} %{buildroot}%{_bindir}/aurora-scheduler-startup
 install -m 755 %{SOURCE6} %{buildroot}%{_bindir}/thermos-observer-startup
 
-install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/sysconfig/aurora
 install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/sysconfig/thermos-observer
 
-install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/aurora
 install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/logrotate.d/thermos-observer
 
-install -m 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/%{name}/clusters.json
+install -m 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/aurora/clusters.json
 
 
 %pre
 getent group %{AURORA_GROUP} > /dev/null || groupadd -r %{AURORA_GROUP}
 getent passwd %{AURORA_USER} > /dev/null || \
-    useradd -r -d %{_localstatedir}/lib/%{name} -g %{AURORA_GROUP} \
+    useradd -r -d %{_localstatedir}/lib/aurora -g %{AURORA_GROUP} \
     -s /bin/bash -c "Aurora Scheduler" %{AURORA_USER}
 exit 0
 
 # Pre/post installation scripts:
 %post
 %if 0%{?fedora} || 0%{?rhel} > 6
-%systemd_post %{name}.service
+%systemd_post aurora.service
 %else
-/sbin/chkconfig --add %{name}
+/sbin/chkconfig --add aurora
 %endif
 
 %preun
 %if 0%{?fedora} || 0%{?rhel} > 6
-%systemd_preun %{name}.service
+%systemd_preun aurora.service
 %else
-/sbin/service %{name} stop >/dev/null 2>&1
-/sbin/chkconfig --del %{name}
+/sbin/service aurora stop >/dev/null 2>&1
+/sbin/chkconfig --del aurora
 %endif
 
 %postun
 %if 0%{?fedora} || 0%{?rhel} > 6
-%systemd_postun_with_restart %{name}.service
+%systemd_postun_with_restart aurora.service
 %else
-/sbin/service %{name} start >/dev/null 2>&1
+/sbin/service aurora start >/dev/null 2>&1
 %endif
 
 
-%post thermos
+%post -n aurora-executor
 %if 0%{?fedora} || 0%{?rhel} > 6
 %systemd_post thermos-observer.service
 %else
 /sbin/chkconfig --add thermos-observer
 %endif
 
-%preun thermos
+%preun -n aurora-executor
 %if 0%{?fedora} || 0%{?rhel} > 6
 %systemd_preun thermos-observer.service
 %else
@@ -285,7 +285,7 @@ exit 0
 /sbin/chkconfig --del thermos-observer
 %endif
 
-%postun thermos
+%postun -n aurora-executor
 %if 0%{?fedora} || 0%{?rhel} > 6
 %systemd_postun_with_restart thermos-observer.service
 %else
@@ -297,28 +297,28 @@ exit 0
 %defattr(-,root,root,-)
 %doc docs/*.md
 %{_bindir}/aurora-scheduler-startup
-%attr(-,%{AURORA_USER},%{AURORA_GROUP}) %{_localstatedir}/lib/%{name}
-%attr(-,%{AURORA_USER},%{AURORA_GROUP}) %{_localstatedir}/log/%{name}
-%{_prefix}/lib/%{name}/bin/*
-%{_prefix}/lib/%{name}/etc/*
-%{_prefix}/lib/%{name}/lib/*
+%attr(-,%{AURORA_USER},%{AURORA_GROUP}) %{_localstatedir}/lib/aurora
+%attr(-,%{AURORA_USER},%{AURORA_GROUP}) %{_localstatedir}/log/aurora
+%{_prefix}/lib/aurora/bin/*
+%{_prefix}/lib/aurora/etc/*
+%{_prefix}/lib/aurora/lib/*
 %if 0%{?fedora} || 0%{?rhel} > 6
-%{_sysconfdir}/systemd/system/%{name}.service
+%{_sysconfdir}/systemd/system/aurora.service
 %else
-%{_sysconfdir}/init.d/%{name}
+%{_sysconfdir}/init.d/aurora
 %endif
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/aurora
+%config(noreplace) %{_sysconfdir}/sysconfig/aurora
 
 
-%files client
+%files -n aurora-tools
 %defattr(-,root,root,-)
-%{_bindir}/%{name}
-%{_bindir}/%{name}_admin
-%config(noreplace) %{_sysconfdir}/%{name}/clusters.json
+%{_bindir}/aurora
+%{_bindir}/aurora_admin
+%config(noreplace) %{_sysconfdir}/aurora/clusters.json
 
 
-%files thermos
+%files -n aurora-executor
 %defattr(-,root,root,-)
 %{_bindir}/thermos
 %{_bindir}/thermos_executor
