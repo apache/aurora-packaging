@@ -32,18 +32,20 @@ run_build() {
   echo "Using docker image $IMAGE_NAME"
   docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
 
-  ARTIFACT_DIR="$(pwd)/dist/$BUILDER_DIR"
-  mkdir -p $ARTIFACT_DIR
   docker run \
-    --rm \
     -e AURORA_VERSION=$AURORA_VERSION \
     -v "$(pwd)/specs:/specs:ro" \
     -v "$(realpath $RELEASE_TAR):/src.tar.gz:ro" \
     -v "$ARTIFACT_DIR:/dist" \
     -t "$IMAGE_NAME" /build.sh
+  container=$(docker ps -l -q)
+  artifact_dir="artifacts/$IMAGE_NAME"
+  mkdir -p "$artifact_dir"
+  docker cp $container:/dist "$artifact_dir"
+  docker rm "$container"
 
-  echo "Produced artifacts in $ARTIFACT_DIR:"
-  ls $ARTIFACT_DIR
+  echo "Produced artifacts in $artifact_dir:"
+  ls -R "$artifact_dir"
 }
 
 case $# in

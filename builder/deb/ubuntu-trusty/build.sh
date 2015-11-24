@@ -34,4 +34,5 @@ dch --release ''
 
 dpkg-buildpackage -uc -b -tc
 
+mkdir /dist
 mv ../*.deb /dist
