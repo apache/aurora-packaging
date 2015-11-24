@@ -175,7 +175,7 @@ unzip gradle-%{GRADLE_VERSION}-bin.zip
 
 # Configures pants to use our distributed platform-specific eggs.
 # This avoids building mesos to produce them.
-export PANTS_CONFIG_OVERRIDE=/pants.ini
+export PANTS_CONFIG_OVERRIDE="['/pants.ini']"
 
 # Builds Aurora client PEX binaries.
 ./pants binary src/main/python/apache/aurora/kerberos:kaurora

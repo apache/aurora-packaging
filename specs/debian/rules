@@ -21,7 +21,7 @@
 
 gradle = $(shell which gradle)
 pants = $(CURDIR)/pants
-PANTS_CONFIG_OVERRIDE = /pants.ini
+PANTS_CONFIG_OVERRIDE = ['/pants.ini']
 export PANTS_CONFIG_OVERRIDE
 
 override_dh_auto_build: __gradle_build __pants_build
