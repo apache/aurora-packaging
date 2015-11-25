@@ -18,12 +18,14 @@ RUN yum install -y \
     yum-utils \
     apr-devel \
     cyrus-sasl-devel \
+    flex \
     gcc \
     gcc-c++ \
     git \
     java-1.8.0-openjdk-devel \
     krb5-devel \
     libcurl-devel \
+    openssl \
     patch \
     python \
     python-devel \
