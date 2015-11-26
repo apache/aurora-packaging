@@ -35,8 +35,7 @@ fi
 
 [ -r /etc/default/thermos ] && . /etc/default/thermos
 
-ARGS="--root=/var/run/thermos
-      --port=${OBSERVER_PORT:-1338}
+ARGS="--port=${OBSERVER_PORT:-1338}
       --log_to_disk=NONE
       --log_to_stderr=google:INFO"
 
