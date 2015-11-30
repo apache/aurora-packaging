@@ -41,7 +41,8 @@ prog="aurora"
 logdir="/var/log/aurora"
 lockfile="/var/run/aurora.lock"
 pid_file="/var/run/aurora.pid"
-stderr_log="${logdir}/aurora.log"
+stdout_log="${logdir}/aurora.log"
+stderr_log="${logdir}/aurora-error.log"
 
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
@@ -126,7 +127,7 @@ start() {
   [ -x ${exec} ] || exit 5
   [ -f ${config} ] || exit 6
   echo -n $"Starting $prog: "
-  start_daemon daemonize -u ${aurora_user} -e ${stderr_log} -p ${pid_file} ${exec}
+  start_daemon daemonize -u ${aurora_user} -o ${stdout_log} -e ${stderr_log} -p ${pid_file} ${exec}
   retval=$?
   [ $retval -eq 0 ] && (echo_success; touch $lockfile) || echo_failure
   echo

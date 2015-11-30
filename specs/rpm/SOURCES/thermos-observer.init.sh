@@ -38,8 +38,8 @@ prog="thermos-observer"
 logdir="/var/log/thermos"
 lockfile="/var/run/thermos-observer.lock"
 pid_file="/var/run/thermos-observer.pid"
-
-stderr_log="${logdir}/observer.log"
+stdout_log="${logdir}/observer.log"
+stderr_log="${logdir}/observer-error.log"
 
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
@@ -124,7 +124,7 @@ start() {
   [ -x ${exec} ] || exit 5
   [ -f ${config} ] || exit 6
   echo -n $"Starting $prog: "
-  start_daemon daemonize -e ${stderr_log} -p ${pid_file} ${exec}
+  start_daemon daemonize -o ${stdout_log} -e ${stderr_log} -p ${pid_file} ${exec}
   retval=$?
   [ $retval -eq 0 ] && (echo_success; touch $lockfile) || echo_failure
   echo
