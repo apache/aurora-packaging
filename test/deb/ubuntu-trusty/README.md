@@ -2,7 +2,7 @@
 ## Fetch and install packages
 
     version=0.9.0
-    pkg_root="http://people.apache.org/~wfarner/aurora/distributions/$version/deb/ubuntu-trusty"
+    pkg_root="https://bintray.com/artifact/download/apache/aurora/"
     for deb in \
         aurora-scheduler_${version}_amd64.deb \
         aurora-executor_${version}_amd64.deb \
