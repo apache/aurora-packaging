@@ -38,7 +38,7 @@ AURORA_FLAGS=(
   -http_port=8081
 
   # The ZooKeeper URL of the ZNode where the Mesos master has registered.
-  -mesos_master_address='zk://127.0.0.1:2181/mesos/master'
+  -mesos_master_address='zk://127.0.0.1:2181/mesos'
 
   # The ZooKeeper quorum to which Aurora will register itself.
   -zk_endpoints='127.0.0.1:2181'
