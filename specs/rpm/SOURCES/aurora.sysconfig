@@ -66,9 +66,9 @@ AURORA_FLAGS=(
   # The ZooKeeper ZNode to which Aurora will register the locations of its replicated log.
   -native_log_zk_group_path='/aurora/native-log'
   # The local directory in which an Aurora scheduler can find Aurora's replicated log.
-  -native_log_file_path='/var/lib/aurora/db'
+  -native_log_file_path='/var/lib/aurora/scheduler/db'
   # The local directory in which Aurora schedulers will place state backups.
-  -backup_dir='/var/lib/aurora/backups'
+  -backup_dir='/var/lib/aurora/scheduler/backups'
 
   ### Thermos Settings ###
 

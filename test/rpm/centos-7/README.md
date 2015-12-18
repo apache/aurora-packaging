@@ -14,7 +14,7 @@
 
 ### Initialize and start
 
-    sudo -u aurora mesos-log initialize --path=/var/lib/aurora/db
+    sudo -u aurora mesos-log initialize --path=/var/lib/aurora/scheduler/db
     sudo sed -i 's|zk://127.0.0.1:2181/mesos/master|zk://127.0.0.1:2181/mesos|g' /etc/sysconfig/aurora
     sudo systemctl start aurora
 
