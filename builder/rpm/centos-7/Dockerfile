@@ -33,6 +33,7 @@ RUN yum install -y \
     tar \
     unzip \
     wget \
+    which \
     zlib-devel
 
 ADD build.sh /build.sh
