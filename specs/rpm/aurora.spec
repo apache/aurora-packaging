@@ -96,7 +96,7 @@ BuildRequires: zlib-devel
 %if 0%{?rhel} && 0%{?rhel} < 7
 Requires:      daemonize
 %endif
-Requires:      java-%{JAVA_VERSION}
+Requires:      java-%{JAVA_VERSION}-headless
 Requires:      mesos = %{MESOS_VERSION}
 
 
