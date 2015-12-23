@@ -1,3 +1,10 @@
+apache-aurora (0.11.0) trusty; urgency=medium
+
+  * Apache Aurora package builder <dev@aurora.apache.org> Wed, 23 Dec
+    2015 17:06:51 +0000
+
+ -- Apache Aurora <dev@aurora.apache.org>  Wed, 23 Dec 2015 17:06:51 +0000
+
 apache-aurora (0.10.0) trusty; urgency=medium
 
   * Apache Aurora package builder <dev@aurora.apache.org> Wed, 25 Nov
