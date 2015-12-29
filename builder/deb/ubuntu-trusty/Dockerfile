@@ -44,8 +44,8 @@ RUN curl -O http://people.apache.org/~jfarrell/thrift/0.9.1/contrib/deb/ubuntu/1
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd gradle-packaging \
   && apt-get install -y ruby ruby-dev unzip wget \
-  && gem install fpm && ./gradle-mkdeb.sh 2.7 \
-  && dpkg -i gradle-2.7_2.7-2_all.deb \
+  && gem install fpm && ./gradle-mkdeb.sh 2.10 \
+  && dpkg -i gradle-2.10_2.10-2_all.deb \
   && cd .. && rm -rf gradle-packaging
 
 ADD build.sh /build.sh
