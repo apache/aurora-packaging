@@ -47,9 +47,6 @@ AURORA_FLAGS=(
   # ServerSet, which keeps track of all live Aurora schedulers.
   -serverset_path='/aurora/scheduler'
 
-  # The log level of the built-in logger.
-  -vlog='INFO'
-
   # Allows the scheduling of containers of the provided type.
   -allowed_container_types='DOCKER,MESOS'
 

@@ -62,15 +62,21 @@ ARGS="-cluster_name=$CLUSTER_NAME
   -thermos_executor_resources=$THERMOS_EXECUTOR_RESOURCES
   -thermos_executor_flags=$THERMOS_EXECUTOR_FLAGS
   -allowed_container_types=$ALLOWED_CONTAINER_TYPES
-  -vlog=$LOG_LEVEL
   $EXTRA_SCHEDULER_ARGS"
 
 export JAVA_OPTS GLOG_v LIBPROCESS_PORT LIBPROCESS_IP
 
 case "$1" in
   start)
-    log_daemon_msg "Starting $DESC" "$NAME"
-    start_daemon -p $PIDFILE $DAEMON $ARGS
+    log_daemon_msg "Starting $DESC $NAME with $ARGS"
+    start-stop-daemon --start \
+                      --quiet \
+                      --oknodo \
+                      --pidfile $PIDFILE \
+                      --background \
+                      --make-pidfile \
+                      --no-close \
+                      --exec $DAEMON -- $ARGS
     log_end_msg $?
     ;;
   stop)

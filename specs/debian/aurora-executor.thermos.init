@@ -19,7 +19,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="Aurora Thermos observer"
 NAME=thermos
 DAEMON=/usr/sbin/thermos_observer
-PIDFILE=/var/run/thermos_observer.pid
+PIDFILE=/var/run/aurora-observer.pid
 SCRIPTNAME=/etc/init.d/"$NAME"
 
 test -f $DAEMON || exit 0
@@ -36,18 +36,22 @@ fi
 [ -r /etc/default/thermos ] && . /etc/default/thermos
 
 ARGS="--port=${OBSERVER_PORT:-1338}
-      --log_to_disk=NONE
-      --log_to_stderr=google:INFO"
+      --mesos-root=${MESOS_ROOT:-/var/lib/mesos}
+      --app_daemonize
+      --app_pidfile=$PIDFILE
+      --log_simple
+      --log_to_disk=google:INFO
+      --log_dir=/var/log/aurora"
 
 case "$1" in
   start)
-    log_daemon_msg "Starting $DESC" "$NAME"
-    mkdir -p /var/run/thermos
+    log_daemon_msg "Starting $DESC $NAME with $ARGS"
+    mkdir -p /var/log/aurora
     start_daemon -p $PIDFILE $DAEMON $ARGS
     log_end_msg $?
     ;;
   stop)
-    log_daemon_msg "Stopping $DESC" "$NAME"
+    log_daemon_msg "Stopping $DESC $NAME"
     killproc -p $PIDFILE $DAEMON
     RETVAL=$?
     [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
