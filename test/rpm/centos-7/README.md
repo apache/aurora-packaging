@@ -1,16 +1,16 @@
 # Installing Aurora
 
 ## Install packages
-### Point to wfarner's test yum repo
 
-    echo '[apache-aurora-wfarner]
-    name=Apache Aurora distribution maintained by wfarner
-    baseurl=http://people.apache.org/~wfarner/aurora/distributions/0.9.0/rpm/centos-7/x86_64/
-    gpgcheck = 0' | sudo tee /etc/yum.repos.d/apache-aurora-wfarner.repo > /dev/null
+# Within vagrant install vagrant scp
+vagrant plugin install vagrant-scp
 
-## Install
+# Then scp over the newly built packages
+vagrant scp \
+    ~/aurora-packaging/artifacts/aurora-centos-7/dist/rpmbuild/SRPMS/aurora-scheduler-0.12.0-1.el7.centos.aurora.src.rpm \
+    aurora_centos_7:aurora-scheduler-0.12.0-1.el7.centos.aurora.src.rpm
 
-    sudo yum install -y aurora aurora-client aurora-thermos
+# Install each rpm via rpm –ivh aurora-scheduler-0.12.0-1.el7.centos.aurora.src.rpm
 
 ### Initialize and start
 

@@ -15,8 +15,6 @@ FROM ubuntu:trusty
 WORKDIR /aurora
 ENV HOME /aurora
 ENV DEBIAN_FRONTEND noninteractive
-# TODO(wfarner): Provide external parameterization via env vars for versions.
-ENV THRIFT_DEB thrift-compiler_0.9.1_amd64.deb
 
 RUN apt-get update && apt-get -y install \
   bison \
@@ -36,9 +34,11 @@ RUN add-apt-repository ppa:openjdk-r/ppa -y \
   && apt-get install -y openjdk-8-jdk \
   && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-RUN curl -O http://people.apache.org/~jfarrell/thrift/0.9.1/contrib/deb/ubuntu/12.04/$THRIFT_DEB \
-  && dpkg --install $THRIFT_DEB \
-  && rm $THRIFT_DEB
+RUN curl -sSL http://apache.org/dist/thrift/KEYS | gpg --import - && \
+   gpg --export --armor 66B778F9 | sudo apt-key add - && \
+   echo 'deb http://www.apache.org/dist/thrift/debian 0.9.1 main' > /etc/apt/sources.list.d/thrift.list && \
+   apt-get update && \
+   apt-get install thrift-compiler=0.9.1
 
 # Install gradle.
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
