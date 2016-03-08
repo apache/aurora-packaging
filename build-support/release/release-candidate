@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# This script should be run after using `./build-artifact` to create rpms
+# and debs.  It will checksum and sign the artifacts and produce tarballs
+# suitable for upload and explosion in a bintray repository.
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+cd "${ROOT_DIR}"
+
+declare -A DIST_DIRS=(
+  ["ubuntu-trusty"]="${ROOT_DIR}/artifacts/aurora-ubuntu-trusty/dist"
+  ["debian-jessie"]="${ROOT_DIR}/artifacts/aurora-debian-jessie/dist"
+  ["centos-7"]="${ROOT_DIR}/artifacts/aurora-centos-7/dist/rpmbuild/RPMS/x86_64"
+)
+
+function oses() {
+  echo "${!DIST_DIRS[@]}"
+}
+
+function dist_dir() {
+  local os="$1"
+  echo "${DIST_DIRS["${os}"]}"
+}
+
+function sign_artifacts() {
+  local os="$1"
+  local dist_dir="$(dist_dir ${os})"
+
+  find "${dist_dir}" -maxdepth 1 -type f | while read file; do
+    # Sign the tarball.
+    gpg --armor --output ${file}.asc --detach-sig ${file}
+
+    # Create the checksums
+    gpg --print-md MD5 ${file} > ${file}.md5
+    shasum ${file} > ${file}.sha
+  done
+}
+
+function zip_artifacts() {
+  local os="$1"
+  local dist_dir="$(dist_dir ${os})"
+
+  local stage_dir="${dist_dir}/.stage"
+  rm -rf "${stage_dir}" && mkdir -p "${stage_dir}/${os}"
+  find "${dist_dir}" -maxdepth 1 -type f | while read file; do
+    ln -s ${file} "${stage_dir}/${os}/$(basename ${file})"
+  done
+
+  local tarball="$(dirname ${dist_dir})/upload.tar"
+  tar -chf "${tarball}" -C "${stage_dir}" "${os}"
+  echo "${tarball}"
+}
+
+for os in $(oses); do
+  echo "Signing artifacts for ${os}..."
+  sign_artifacts "${os}"
+  archive="$(zip_artifacts "${os}")"
+  echo "Created archive for ${os} artifacts at ${archive}."
+done
+echo "All artifacts prepared for upload to bintray."
