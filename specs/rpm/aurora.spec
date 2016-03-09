@@ -58,7 +58,7 @@ Group:         Applications/System
 License:       ASL 2.0
 URL:           https://aurora.apache.org/
 
-Source0:       https://github.com/apache/aurora/archive/%{version}/aurora.tar.gz
+Source0:       https://github.com/apache/aurora/archive/rel/%{version}.tar.gz
 Source1:       aurora.service
 Source2:       thermos-observer.service
 Source3:       aurora.init.sh
@@ -148,7 +148,7 @@ state of all running tasks.
 
 
 %prep
-%setup -n apache-aurora-%{version}
+%setup -n aurora-rel-%{version}
 
 
 %build
