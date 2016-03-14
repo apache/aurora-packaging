@@ -2,20 +2,38 @@
 
 ## Install packages
 
-### Install vagrant scp
+Two methods are described, one for installing locally built packages, the other
+for installing released packages or release candidate packages.
+
+### Locally built
+
+#### Install vagrant scp
 
     vagrant plugin install vagrant-scp
 
-### Then scp over the newly built packages
+#### Then scp over the newly built packages
 
     for rpm in ../../../artifacts/aurora-centos-7/dist/rpmbuild/RPMS/x86_64/*.rpm; do
       vagrant scp $rpm aurora_centos_7:$(basename $rpm)
     done
 
-### Install each rpm
+#### Install each rpm
 
     vagrant ssh -- -L8081:localhost:8081 -L1338:localhost:1338
     sudo yum install -y *.rpm
+
+### Released
+
+    vagrant ssh -- -L8081:localhost:8081 -L1338:localhost:1338
+    version=0.12.0
+    pkg_root="https://apache.bintray.com/aurora/centos-7/"
+    for rpm in \
+        aurora-scheduler-${version}-1.el7.centos.aurora.x86_64.rpm \
+        aurora-executor-${version}-1.el7.centos.aurora.x86_64.rpm \
+        aurora-tools-${version}-1.el7.centos.aurora.x86_64.rpm; do
+      wget $pkg_root/$rpm
+      sudo yum install -y $rpm
+    done
 
 ## Initialize and start
 

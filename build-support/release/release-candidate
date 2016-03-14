@@ -28,25 +28,27 @@ function dist_dir() {
 
 function sign_artifacts() {
   local os="$1"
-  local dist_dir="$(dist_dir ${os})"
+  local dist_dir="$2"
+  local stage_dir="$3"
 
   find "${dist_dir}" -maxdepth 1 -type f | while read file; do
+    local name=$(basename "${file}")
     # Sign the tarball.
-    gpg --armor --output ${file}.asc --detach-sig ${file}
+    gpg --armor --output "${stage_dir}/${name}.asc" --detach-sig "${file}"
 
     # Create the checksums
-    gpg --print-md MD5 ${file} > ${file}.md5
-    shasum ${file} > ${file}.sha
+    gpg --print-md MD5 "${file}" > "${stage_dir}/${name}.md5"
+    shasum "${file}" > "${stage_dir}/${name}.sha"
   done
 }
 
 function zip_artifacts() {
   local os="$1"
-  local dist_dir="$(dist_dir ${os})"
+  local dist_dir="$2"
+  local stage_dir="$3"
 
-  local stage_dir="${dist_dir}/.stage"
-  rm -rf "${stage_dir}" && mkdir -p "${stage_dir}/${os}"
-  find "${dist_dir}" -maxdepth 1 -type f | while read file; do
+  rm -rf "${stage_dir}/${os}" && mkdir -p "${stage_dir}/${os}"
+  find "${dist_dir}" "${stage_dir}" -maxdepth 1 -type f | while read file; do
     ln -s ${file} "${stage_dir}/${os}/$(basename ${file})"
   done
 
@@ -56,9 +58,16 @@ function zip_artifacts() {
 }
 
 for os in $(oses); do
-  echo "Signing artifacts for ${os}..."
-  sign_artifacts "${os}"
-  archive="$(zip_artifacts "${os}")"
-  echo "Created archive for ${os} artifacts at ${archive}."
+  dist_dir="$(dist_dir ${os})"
+  if [[ -d "${dist_dir}" ]]; then
+    stage_dir="${dist_dir}/.stage"
+    rm -rf "${stage_dir}" && mkdir -p "${stage_dir}"
+    echo "Signing artifacts for ${os}..."
+    sign_artifacts "${os}" "${dist_dir}" "${stage_dir}"
+    archive="$(zip_artifacts "${os}" "${dist_dir}" "${stage_dir}")"
+    echo "Created archive for ${os} artifacts at ${archive}."
+  else
+    echo "Skipping artifacts for ${os} (not found built under ${dist_dir})."
+  fi
 done
 echo "All artifacts prepared for upload to bintray."

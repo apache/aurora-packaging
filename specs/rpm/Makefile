@@ -18,11 +18,10 @@ RPM_TOPDIR ?= $(DIST_DIR)
 
 DATETIME ?= $(shell date +%Y%m%d%H%M)
 
-SOURCE_TARGET ?= $(RPM_TOPDIR)/rpmbuild/SOURCES/aurora.tar.gz
-
 AURORA_VERSION ?= $(shell cat $(TOPDIR)/.auroraversion | tr '-' '.')
-MESOS_VERSION ?= $(shell sed -n 's/.*mesos\.native==\(.*\)/\1/p' $(TOPDIR)/3rdparty/python/requirements.txt)
+MESOS_VERSION ?= $(shell tr -d "'\" \t" < $(TOPDIR)/3rdparty/python/BUILD | sed -n 's/MESOS_REV=\(.*\)/\1/p' )
 
+SOURCE_TARGET ?= $(RPM_TOPDIR)/rpmbuild/SOURCES/$(AURORA_VERSION).tar.gz
 
 PHONY: all nightly_version release_version get_source_target clean mkdir srpm nightly_srpm nightly_rpm release_srpm release_rpm tar_source
 
