@@ -126,13 +126,6 @@ schedulers.
 Summary: Mesos executor that runs and monitors tasks scheduled by the Aurora scheduler
 Group: Applications/System
 
-Requires: cyrus-sasl
-%if 0%{?rhel} && 0%{?rhel} < 7
-Requires: daemonize
-Requires: docker-io
-%else
-Requires: docker
-%endif
 Requires: mesos = %{MESOS_VERSION}
 %if 0%{?rhel} && 0%{?rhel} < 7
 Requires: python27
