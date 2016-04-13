@@ -97,7 +97,7 @@ BuildRequires: zlib-devel
 Requires:      daemonize
 %endif
 Requires:      java-%{JAVA_VERSION}-headless
-Requires:      mesos = %{MESOS_VERSION}
+Requires:      mesos >= %{MESOS_VERSION}
 
 
 %description
@@ -126,7 +126,7 @@ schedulers.
 Summary: Mesos executor that runs and monitors tasks scheduled by the Aurora scheduler
 Group: Applications/System
 
-Requires: mesos = %{MESOS_VERSION}
+Requires: mesos >= %{MESOS_VERSION}
 %if 0%{?rhel} && 0%{?rhel} < 7
 Requires: python27
 %else
