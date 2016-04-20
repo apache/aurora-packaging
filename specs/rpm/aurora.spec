@@ -17,6 +17,10 @@
 %global AURORA_VERSION 0.9.0
 %endif
 
+%if %{?!AURORA_INTERNAL_VERSION:1}0
+%global AURORA_INTERNAL_VERSION %{AURORA_VERSION}
+%endif
+
 %if %{?!AURORA_USER:1}0
 %global AURORA_USER aurora
 %endif
@@ -58,7 +62,7 @@ Group:         Applications/System
 License:       ASL 2.0
 URL:           https://aurora.apache.org/
 
-Source0:       https://github.com/apache/aurora/archive/rel/%{version}.tar.gz
+Source0:       http://www.apache.org/dyn/closer.cgi?action=download&filename=aurora/%{version}/apache-aurora-%{version}.tar.gz#/apache-aurora-%{version}.tar.gz
 Source1:       aurora.service
 Source2:       thermos-observer.service
 Source3:       aurora.init.sh
@@ -70,6 +74,7 @@ Source8:       thermos-observer.sysconfig
 Source9:       aurora.logrotate
 Source10:      thermos-observer.logrotate
 Source11:      clusters.json
+Source12:      aurora-pants.ini
 
 BuildRequires: apr-devel
 BuildRequires: cyrus-sasl-devel
@@ -79,6 +84,7 @@ BuildRequires: git
 BuildRequires: java-%{JAVA_VERSION}-openjdk-devel
 BuildRequires: krb5-devel
 BuildRequires: libcurl-devel
+BuildRequires: openssl
 BuildRequires: patch
 %if 0%{?rhel} && 0%{?rhel} < 7
 BuildRequires: python27
@@ -141,8 +147,7 @@ state of all running tasks.
 
 
 %prep
-%setup -n apache-aurora-%{version}
-
+%setup -n apache-aurora-%{AURORA_INTERNAL_VERSION}
 
 %build
 # Preferences SCL-installed Python 2.7 if we're building on EL6.
@@ -168,7 +173,9 @@ unzip gradle-%{GRADLE_VERSION}-bin.zip
 
 # Configures pants to use our distributed platform-specific eggs.
 # This avoids building mesos to produce them.
-export PANTS_CONFIG_OVERRIDE="['/pants.ini']"
+%{__mkdir_p} %{buildroot}
+%{__cp} %{SOURCE12} %{buildroot}
+export PANTS_CONFIG_OVERRIDE="['%{buildroot}/aurora-pants.ini']"
 
 # Builds Aurora client PEX binaries.
 ./pants binary src/main/python/apache/aurora/kerberos:kaurora

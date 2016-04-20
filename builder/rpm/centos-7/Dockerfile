@@ -38,4 +38,3 @@ RUN yum install -y \
     zlib-devel
 
 ADD build.sh /build.sh
-ADD pants.ini /pants.ini

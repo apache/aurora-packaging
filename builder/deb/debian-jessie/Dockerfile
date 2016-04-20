@@ -45,4 +45,3 @@ RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd .. && rm -rf gradle-packaging
 
 ADD build.sh /build.sh
-ADD pants.ini /pants.ini

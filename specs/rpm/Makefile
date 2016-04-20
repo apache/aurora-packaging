@@ -18,10 +18,10 @@ RPM_TOPDIR ?= $(DIST_DIR)
 
 DATETIME ?= $(shell date +%Y%m%d%H%M)
 
-AURORA_VERSION ?= $(shell cat $(TOPDIR)/.auroraversion | tr '-' '.')
 MESOS_VERSION ?= $(shell tr -d "'\" \t" < $(TOPDIR)/3rdparty/python/BUILD | sed -n 's/MESOS_REV=\(.*\)/\1/p' )
 
-SOURCE_TARGET ?= $(RPM_TOPDIR)/rpmbuild/SOURCES/$(AURORA_VERSION).tar.gz
+AURORA_INTERNAL_VERSION ?= $(shell cat $(TOPDIR)/.auroraversion)
+SOURCE_TARGET ?= $(RPM_TOPDIR)/rpmbuild/SOURCES/apache-aurora-$(AURORA_VERSION).tar.gz
 
 PHONY: all nightly_version release_version get_source_target clean mkdir srpm nightly_srpm nightly_rpm release_srpm release_rpm tar_source
 
@@ -55,6 +55,7 @@ srpm: mkdir
 		--define "_specdir %(pwd)" \
 		--define "_sourcedir  %{_topdir}/rpmbuild/SOURCES" \
 		--define "AURORA_VERSION $(AURORA_VERSION)" \
+		--define "AURORA_INTERNAL_VERSION $(AURORA_INTERNAL_VERSION)" \
 		--define "MESOS_VERSION $(MESOS_VERSION)" \
 		--nodeps -bs aurora.spec
 
@@ -68,6 +69,7 @@ rpm: mkdir
 		--define "_specdir %(pwd)" \
 		--define "_sourcedir  %{_topdir}/rpmbuild/SOURCES" \
 		--define "AURORA_VERSION $(AURORA_VERSION)" \
+		--define "AURORA_INTERNAL_VERSION $(AURORA_INTERNAL_VERSION)" \
 		--define "MESOS_VERSION $(MESOS_VERSION)" \
 		-ba aurora.spec
 
