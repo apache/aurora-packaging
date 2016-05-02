@@ -39,9 +39,10 @@ RUN apt-get -y -t jessie-backports install openjdk-8-jdk \
 # Install gradle.
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd gradle-packaging \
-  && apt-get install -y ruby ruby-dev unzip wget \
+  && apt-get -y install ruby ruby-dev unzip wget \
   && gem install fpm && ./gradle-mkdeb.sh 2.12 \
-  && dpkg -i gradle-2.12_2.12-2_all.deb \
+  && apt-get -y install gdebi-core \
+  && gdebi --non-interactive gradle-2.12_2.12-2_all.deb \
   && cd .. && rm -rf gradle-packaging
 
 ADD build.sh /build.sh
