@@ -6,5 +6,7 @@ service zookeeper-server init
 systemctl start zookeeper-server
 
 rpm -Uvh https://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
-yum -y install mesos-0.25.0
-systemctl start mesos-slave mesos-master
+yum -y install mesos-0.26.0
+
+systemctl start mesos-master
+systemctl start mesos-slave

@@ -14,7 +14,7 @@
 
 # Overridable variables;
 %if %{?!AURORA_VERSION:1}0
-%global AURORA_VERSION 0.9.0
+%global AURORA_VERSION 0.13.0
 %endif
 
 %if %{?!AURORA_INTERNAL_VERSION:1}0
@@ -42,7 +42,7 @@
 %endif
 
 %if %{?!MESOS_VERSION:1}0
-%global MESOS_VERSION 0.25.0
+%global MESOS_VERSION 0.26.0
 %endif
 
 %if %{?!PEX_BINARIES:1}0

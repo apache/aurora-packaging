@@ -72,5 +72,5 @@ AURORA_FLAGS=(
   # The local path of the Thermos executor binary.
   -thermos_executor_path='/usr/bin/thermos_executor'
   # Flags to pass to the Thermos executor.
-  -thermos_executor_flags='--announcer-enable --announcer-ensemble 127.0.0.1:2181'
+  -thermos_executor_flags='--announcer-ensemble 127.0.0.1:2181'
 )

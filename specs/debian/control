@@ -22,7 +22,7 @@ Section: net
 Depends: ${shlibs:Depends}, ${misc:Depends},
  adduser,
  openjdk-8-jre-headless | java8-runtime-headless,
- mesos (>= 0.21.1)
+ mesos (>= 0.26.0)
 Recommends: aurora-tools
 Suggests: aurora-doc
 Description: Apache Aurora scheduler

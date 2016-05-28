@@ -13,8 +13,6 @@
 # limitations under the License.
 #
 
-#TODO (wfarner): Figure out how to symlink build files into Docker container.
-
 set -ex
 
 mkdir /scratch
