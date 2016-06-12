@@ -1,6 +1,5 @@
 #!/bin/bash
-#
-# Starts up an Aurora scheduler process.
+# Starts up a Thermos observer process.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +14,6 @@
 # limitations under the License.
 
 
-source /etc/sysconfig/aurora
+source /etc/sysconfig/thermos
 
-# Environment variables control the behavior of the Mesos scheduler driver (libmesos).
-export GLOG_v LIBPROCESS_PORT LIBPROCESS_IP
-export JAVA_OPTS="${JAVA_OPTS[*]}"
-
-# Preferences Java 1.8 over any other Java version.
-export PATH=/usr/lib/jvm/java-1.8.0/bin:${PATH}
-
-exec /usr/lib/aurora/bin/aurora-scheduler "${AURORA_FLAGS[@]}"
+exec /usr/bin/thermos_observer "${OBSERVER_ARGS[@]}"

@@ -16,7 +16,7 @@ After=network.target
 Wants=network.target
 
 [Service]
-ExecStart=/usr/bin/thermos-observer-startup
+ExecStart=/usr/bin/thermos-startup
 User=root
 Group=root
 Restart=always

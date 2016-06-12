@@ -33,7 +33,7 @@
 # Source LSB function library.
 . /lib/lsb/init-functions
 
-exec="/usr/bin/thermos-observer-startup"
+exec="/usr/bin/thermos-startup"
 prog="thermos-observer"
 logdir="/var/log/thermos"
 lockfile="/var/run/thermos-observer.lock"
