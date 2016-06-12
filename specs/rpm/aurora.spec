@@ -338,6 +338,12 @@ exit 0
 
 
 %changelog
+* Mon Mar 7 2016 Apache Aurora <dev@aurora.apache.org> 0.12.0-1.el7
+- Updated to Apache Aurora 0.12.0
+
+* Wed Dec 23 2015 Apache Aurora <dev@aurora.apache.org> 0.11.0-1.el7
+- Updated to Apache Aurora 0.11.0
+
 * Wed Dec 2 2015 Bill Farner <wfarner@apache.org> 0.10.0-1.el7
 - Updated to Apache Aurora 0.10.0
 
