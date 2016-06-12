@@ -44,15 +44,16 @@ has to be initialized manually:
 
 ## Create a job
 
-    echo "
-    task = SequentialTask(
-      processes = [Process(name = 'hello', cmdline = 'echo hello')],
-      resources = Resources(cpu = 0.5, ram = 128*MB, disk = 128*MB))
-    jobs = [Service(
-      task = task, cluster = 'example', role = 'www-data', environment = 'prod', name = 'hello')]" > hello_world.aurora
+```
+echo "
+task = SequentialTask(
+  processes = [Process(name = 'hello', cmdline = 'echo hello')],
+  resources = Resources(cpu = 0.5, ram = 128*MB, disk = 128*MB))
+jobs = [Service(
+  task = task, cluster = 'example', role = 'www-data', environment = 'prod', name = 'hello')]" > hello_world.aurora
 
-    aurora job create example/www-data/prod/hello hello_world.aurora
-
+aurora job create example/www-data/prod/hello hello_world.aurora
+```
 ## Troubleshooting
 
 * Mesos: `/var/log/mesos`
