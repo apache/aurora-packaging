@@ -37,8 +37,8 @@ for installing released packages or release candidate packages.
 
     sudo -u aurora mkdir -p /var/lib/aurora/scheduler/db
     sudo -u aurora mesos-log initialize --path=/var/lib/aurora/scheduler/db
-    sudo systemctl start aurora
-    sudo systemctl start thermos-observer
+    sudo systemctl start aurora-scheduler
+    sudo systemctl start thermos
 
 ## Create a job
 
@@ -54,5 +54,5 @@ for installing released packages or release candidate packages.
 ## Troubleshooting
 
 * Mesos: `/var/log/mesos`
-* Aurora scheduler: `sudo journalctl -u aurora`
-* Aurora observer: `sudo journalctl -u thermos-observer`
+* Aurora scheduler: `sudo journalctl -u aurora-scheduler`
+* Aurora observer: `sudo journalctl -u thermos`
