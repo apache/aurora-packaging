@@ -5,6 +5,6 @@
     "scheduler_zk_path": "/aurora/scheduler",
     "slave_root": "/var/lib/mesos",
     "slave_run_directory": "latest",
-    "zk": "127.0.1.1"
+    "zk": "127.0.0.1"
   }
 ]

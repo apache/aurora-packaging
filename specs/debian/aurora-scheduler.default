@@ -18,7 +18,7 @@
 # Environment variables control the behavior of the Mesos scheduler driver (libmesos).
 GLOG_v=0
 LIBPROCESS_PORT=8083
-#LIBPROCESS_IP=192.168.33.7
+#LIBPROCESS_IP=127.0.0.1
 ###
 
 ###
@@ -39,7 +39,7 @@ HTTP_PORT=8081
 QUORUM_SIZE=1
 
 # List of zookeeper endpoints
-ZK_ENDPOINTS="localhost:2181"
+ZK_ENDPOINTS="127.0.0.1:2181"
 
 # Zookeeper path or URL to mesos master
 MESOS_MASTER="zk://${ZK_ENDPOINTS}/mesos"
@@ -65,13 +65,10 @@ THERMOS_EXECUTOR_PATH="/usr/share/aurora/bin/thermos_executor.pex"
 THERMOS_EXECUTOR_RESOURCES=""
 
 # Extra arguments to be passed to the thermos executor
-THERMOS_EXECUTOR_FLAGS=""
+THERMOS_EXECUTOR_FLAGS="--announcer-ensemble 127.0.0.1:2181"
 
 # Container types that are allowed to be used by jobs.
 ALLOWED_CONTAINER_TYPES="MESOS,DOCKER"
-
-# Scheduler log verbosity
-LOG_LEVEL="INFO"
 
 # Any args you want to add to the aurora-scheduler invocation:
 EXTRA_SCHEDULER_ARGS=""

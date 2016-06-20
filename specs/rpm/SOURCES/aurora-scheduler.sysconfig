@@ -15,9 +15,8 @@
 
 
 GLOG_v=0
-
 LIBPROCESS_PORT=8083
-LIBPROCESS_IP='127.0.0.1'
+#LIBPROCESS_IP=127.0.0.1
 
 # Flags that control the behavior of the JVM.
 JAVA_OPTS=(
@@ -32,7 +31,7 @@ JAVA_OPTS=(
 # For a full list of available flags, run /usr/lib/aurora/bin/aurora-scheduler -help
 AURORA_FLAGS=(
   # The name of this cluster.
-  -cluster_name='main'
+  -cluster_name='example'
 
   # The HTTP port upon which Aurora will listen.
   -http_port=8081
@@ -61,7 +60,7 @@ AURORA_FLAGS=(
   # https://aurora.apache.org/documentation/latest/deploying-aurora-scheduler/#replicated-log-configuration
   -native_log_quorum_size='1'
   # The ZooKeeper ZNode to which Aurora will register the locations of its replicated log.
-  -native_log_zk_group_path='/aurora/native-log'
+  -native_log_zk_group_path='/aurora/replicated-log'
   # The local directory in which an Aurora scheduler can find Aurora's replicated log.
   -native_log_file_path='/var/lib/aurora/scheduler/db'
   # The local directory in which Aurora schedulers will place state backups.

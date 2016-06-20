@@ -50,13 +50,13 @@ task = SequentialTask(
   processes = [Process(name = 'hello', cmdline = 'echo hello')],
   resources = Resources(cpu = 0.5, ram = 128*MB, disk = 128*MB))
 jobs = [Service(
-  task = task, cluster = 'example', role = 'www-data', environment = 'prod', name = 'hello')]" > hello_world.aurora
+  task = task, cluster = 'example', role = 'vagrant', environment = 'prod', name = 'hello')]" > hello_world.aurora
 
-aurora job create example/www-data/prod/hello hello_world.aurora
+aurora job create example/vagrant/prod/hello hello_world.aurora
 ```
 
 ## Troubleshooting
 
 * Mesos: `/var/log/mesos`
 * Aurora scheduler: `sudo journalctl -u aurora-scheduler`
-* Aurora observer: `/var/log/aurora/thermos_observer.log`
+* Aurora observer: `sudo journalctl -u thermos`

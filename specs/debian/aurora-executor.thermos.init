@@ -39,9 +39,8 @@ ARGS="--port=${OBSERVER_PORT:-1338}
       --mesos-root=${MESOS_ROOT:-/var/lib/mesos}
       --app_daemonize
       --app_pidfile=$PIDFILE
-      --log_simple
-      --log_to_disk=google:INFO
-      --log_dir=/var/log/aurora"
+      --log_to_disk=NONE
+      --log_to_stderr=google:INFO"
 
 case "$1" in
   start)
