@@ -338,6 +338,17 @@ exit 0
 
 
 %changelog
+* Mon Jun 21 2016 Apache Aurora <dev@aurora.apache.org> 0.13.0-1.el7
+- Updated to Apache Aurora 0.13.0
+- Renamed the aurora service and all associated configurations to
+  aurora-scheduler.
+- Renamed the thermos-observer service and all associated configurations
+  to thermos.
+- Changed the example cluster name from 'main' to 'example'.
+- Changed the default native_log_zk_group_path from '/aurora/native-log'
+  to '/aurora/replicated-log'.
+- Updated example clusters.json to include all mandatory options.
+
 * Mon Mar 7 2016 Apache Aurora <dev@aurora.apache.org> 0.12.0-1.el7
 - Updated to Apache Aurora 0.12.0
 
