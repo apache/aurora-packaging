@@ -22,7 +22,7 @@ for installing released packages or release candidate packages.
 ### Released
 
     vagrant ssh -- -L8081:localhost:8081 -L1338:localhost:1338
-    version=0.12.0
+    version=0.13.0
     pkg_root="https://apache.bintray.com/aurora/centos-7/"
     for rpm in \
         aurora-scheduler-${version}-1.el7.centos.aurora.x86_64.rpm \
@@ -34,11 +34,14 @@ for installing released packages or release candidate packages.
 
 ## Initialize and start
 
-
     sudo -u aurora mkdir -p /var/lib/aurora/scheduler/db
     sudo -u aurora mesos-log initialize --path=/var/lib/aurora/scheduler/db
     sudo systemctl start aurora-scheduler
     sudo systemctl start thermos
+
+To make the Thermos observer work, you will have to follow the instructions of our
+[Install Guide](https://github.com/apache/aurora/blob/master/docs/operations/installation.md#configuration).
+
 
 ## Create a job
 
