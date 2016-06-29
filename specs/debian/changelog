@@ -1,3 +1,10 @@
+apache-aurora (0.14.0) trusty; urgency=medium
+
+  * Apache Aurora package builder <dev@aurora.apache.org> Wed, 29 Jun
+    2016 18:11:09 +0000
+
+ -- Apache Aurora <dev@aurora.apache.org>  Wed, 29 Jun 2016 18:11:10 +0000
+
 apache-aurora (0.13.0) trusty; urgency=medium
 
   * Like Aurora, Thermos is now logging to stderr rather than to disk.
