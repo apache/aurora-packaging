@@ -23,7 +23,7 @@ from the Aurora source repository:
           ../apache-aurora-0.9.0.tar.gz \
           0.9.0
 
-When this completes, debs will be placed in `dist/builder/deb/ubuntu-trusty/`.
+When this completes, debs will be placed in `artifacts/aurora-ubuntu-trusty/dist/`.
 
 ### Creating a release candidate
 
