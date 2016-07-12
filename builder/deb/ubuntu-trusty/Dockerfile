@@ -44,9 +44,9 @@ RUN curl -sSL http://apache.org/dist/thrift/KEYS | gpg --import - && \
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd gradle-packaging \
   && apt-get -y install ruby ruby-dev unzip wget \
-  && gem install fpm && ./gradle-mkdeb.sh 2.12 \
+  && gem install fpm && ./gradle-mkdeb.sh 2.14 \
   && apt-get -y install gdebi-core \
-  && gdebi --non-interactive gradle-2.12_2.12-2_all.deb \
+  && gdebi --non-interactive gradle-2.14_2.14-2_all.deb \
   && cd .. && rm -rf gradle-packaging
 
 ADD build.sh /build.sh
