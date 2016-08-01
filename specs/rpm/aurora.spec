@@ -42,7 +42,7 @@
 %endif
 
 %if %{?!MESOS_VERSION:1}0
-%global MESOS_VERSION 0.28.2
+%global MESOS_VERSION 1.0.0
 %endif
 
 %if %{?!PEX_BINARIES:1}0

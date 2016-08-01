@@ -6,7 +6,7 @@ apt-get install -y openjdk-8-jre libsvn1 zookeeperd
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-package=mesos_0.28.2-2.0.27.debian81_amd64.deb
+package=mesos_1.0.0-2.0.89.debian81_amd64.deb
 wget -c http://repos.mesosphere.com/debian/pool/main/m/mesos/$package
 dpkg -i $package
 
