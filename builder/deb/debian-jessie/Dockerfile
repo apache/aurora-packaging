@@ -10,11 +10,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM debian:jessie-backports
+FROM debian:jessie
 
 WORKDIR /aurora
 ENV HOME /aurora
 ENV DEBIAN_FRONTEND noninteractive
+
+# The default httpredir mirror is a common source for flaky docker builds.
+# Use an explicit mirror instead (https://github.com/docker-library/buildpack-deps/issues/40)
+RUN echo \
+   'deb http://mirrors.kernel.org/debian/ jessie main\n \
+    deb http://mirrors.kernel.org/debian/ jessie-updates main\n \
+    deb http://mirrors.kernel.org/debian/ jessie-backports main\n \
+    deb http://security.debian.org jessie/updates main\n' \
+    > /etc/apt/sources.list
 
 RUN apt-get update && apt-get -y install \
   bison \
