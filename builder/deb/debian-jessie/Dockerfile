@@ -34,6 +34,7 @@ RUN apt-get update && apt-get -y install \
   git \
   libapr1-dev \
   libcurl4-openssl-dev \
+  libffi-dev \
   libkrb5-dev \
   libsvn-dev \
   python-all-dev \

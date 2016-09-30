@@ -25,6 +25,7 @@ RUN apt-get update && apt-get -y install \
   git \
   libapr1-dev \
   libcurl4-openssl-dev \
+  libffi-dev \
   libsvn-dev \
   python-all-dev \
   software-properties-common
