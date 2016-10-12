@@ -27,7 +27,7 @@ export PANTS_CONFIG_OVERRIDE
 override_dh_auto_build: __gradle_build __pants_build
 
 __gradle_build:
-	$(gradle) installApp
+	$(gradle) installDist
 
 __pants_build:
 	mkdir -p third_party
