@@ -2,7 +2,7 @@
 
 echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee -a /etc/apt/sources.list
 apt-get update
-apt-get install -y openjdk-8-jre libsvn1 zookeeperd
+apt-get install -y openjdk-8-jre libcurl4-nss-dev libcurl3 libevent-dev libsvn1 zookeeperd
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
