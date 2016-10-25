@@ -42,7 +42,10 @@ Now run the [Building a binary](#building-a-binary) procedure detailed above.
 
 #### Hash, sign and upload the binaries
 
-Run the following which will create a tarball for each distribution platform that can be uploaded to bintray:
+Run the following which will create a tarball for each distribution platform that can be uploaded to
+bintray:
+
+N.B.: the release-candidate script requires bash 4.x or higher.
 
     ./build-support/release/release-candidate
     Signing artifacts for centos-7...
@@ -53,10 +56,15 @@ Run the following which will create a tarball for each distribution platform tha
     Created archive for ubuntu-trusty artifacts at /home/jsirois/dev/aurora/jsirois-aurora-packaging/artifacts/aurora-ubuntu-trusty/upload.tar.
     All artifacts prepared for upload to bintray.
 
-In the bintray UI, create a new version in your release-candidate repo, for example '0.12.0'.  Then, in the version UI you can
-upload the tarballs, ensuring you select 'Explode this archive'.
+In the bintray UI, create a new version in your release-candidate repo, for example '0.12.0'.  Then,
+in the version UI you can upload the artifacts. Bintray theoretically supports exploding tarballs on
+upload, but currently this functionality does not work (it fails to detect tarballs as explodable
+artifacts or, if it does, it tries to sign the artifacts, but fails due to a signature already being
+present, even when signing is disabled at the repo level).
 
-![bintray upload](docs/images/bintray-upload.png)
+This is all to say, it's easier to just un-tar the various upload.tar files and upload their
+contents directly. This can be accomplished by dragging and dropping all files into the upload UI
+for the version you created.
 
 Finally, 'publish' the results.
 

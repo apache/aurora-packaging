@@ -8,6 +8,13 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+
+RELEASE=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$RELEASE" = "master" ]]; then
+  echo "This script must be run from a branch named for the release, e.g. 0.16.x"
+  exit 1
+fi
+
 ROOT_DIR=$(git rev-parse --show-toplevel)
 cd "${ROOT_DIR}"
 
@@ -70,4 +77,57 @@ for os in $(oses); do
     echo "Skipping artifacts for ${os} (not found built under ${dist_dir})."
   fi
 done
-echo "All artifacts prepared for upload to bintray."
+echo "All artifacts prepared for upload to bintray. The following draft email has been created"
+echo "to send to the dev@aurora.apache.org mailing list"
+echo
+
+# Create the email template for the release candidate to be sent to the mailing lists.
+if [[ $(uname) == Darwin ]]; then
+  vote_end=$(date -v+3d)
+else
+  vote_end=$(date -d+3days)
+fi
+
+MESSAGE=$(cat <<__EOF__
+To: dev@aurora.apache.org
+Subject: [VOTE] Release Apache Aurora $RELEASE packages
+
+All,
+
+I propose that we accept the following artifacts as the official deb and rpm packaging for
+Apache Aurora ${RELEASE}:
+
+https://dl.bintray.com/${USER}/aurora/
+
+The Aurora deb and rpm packaging includes the following:
+
+---
+
+The branch used to create the packaging is:
+https://git1-us-west.apache.org/repos/asf?p=aurora-packaging.git;a=tree;hb=refs/heads/${RELEASE}
+
+The packages are available at:
+https://dl.bintray.com/${USER}/aurora/
+
+The GPG keys used to sign the packages are available at:
+https://dist.apache.org/repos/dist/release/aurora/KEYS
+
+Please download, verify, and test. Detailed test instructions are available here:
+https://git1-us-west.apache.org/repos/asf?p=aurora-packaging.git;a=tree;f=test;hb=refs/heads/${RELEASE}
+
+
+The vote will close on ${vote_end}
+
+[ ] +1 Release these as the deb and rpm packages for Apache Aurora ${RELEASE}
+[ ] +0
+[ ] -1 Do not release these artifacts because...
+
+__EOF__
+)
+
+echo "--------------------------------------------------------------------------------"
+echo
+echo "${MESSAGE}"
+echo
+echo "--------------------------------------------------------------------------------"
+echo
