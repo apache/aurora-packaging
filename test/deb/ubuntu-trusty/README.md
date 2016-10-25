@@ -11,7 +11,7 @@ for installing released packages or release candidate packages.
     vagrant plugin install vagrant-scp
 
     # Scp over the newly built packages
-    for deb in ../../../artifacts/aurora-debian-jessie/dist/*.deb; do
+    for deb in ../../../artifacts/aurora-ubuntu-trusty/dist/*.deb; do
       vagrant scp $deb :$(basename $deb)
     done
 

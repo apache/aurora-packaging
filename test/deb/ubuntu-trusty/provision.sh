@@ -2,7 +2,7 @@
 
 add-apt-repository ppa:openjdk-r/ppa -y
 apt-get update
-apt-get install -y openjdk-8-jre libsvn1 zookeeperd
+apt-get install -y openjdk-8-jre libcurl4-nss-dev libevent-dev libsvn1 zookeeperd
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
