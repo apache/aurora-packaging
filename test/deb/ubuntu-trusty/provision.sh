@@ -6,7 +6,7 @@ apt-get install -y openjdk-8-jre libcurl4-nss-dev libevent-dev libsvn1 zookeeper
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-package=mesos_1.0.0-2.0.89.ubuntu1404_amd64.deb
+package=mesos_1.1.0-2.0.107.ubuntu1404_amd64.deb
 wget -c http://repos.mesosphere.com/ubuntu/pool/main/m/mesos/$package
 dpkg -i $package
 

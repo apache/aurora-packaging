@@ -6,7 +6,7 @@ apt-get install -y openjdk-8-jre libcurl4-nss-dev libcurl3 libevent-dev libsvn1 
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-package=mesos_1.0.0-2.0.89.debian81_amd64.deb
+package=mesos_1.1.0-2.0.107.debian81_amd64.deb
 wget -c http://repos.mesosphere.com/debian/pool/main/m/mesos/$package
 dpkg -i $package
 
