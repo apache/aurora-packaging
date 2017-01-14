@@ -38,15 +38,17 @@ function sign_artifacts() {
   local dist_dir="$2"
   local stage_dir="$3"
 
-  find "${dist_dir}" -maxdepth 1 -type f | while read file; do
-    local name=$(basename "${file}")
-    # Sign the tarball.
-    gpg --armor --output "${stage_dir}/${name}.asc" --detach-sig "${file}"
+  pushd ${dist_dir}
+    find . -maxdepth 1 -type f | while read file; do
+      local name=$(basename "${file}")
+      # Sign the tarball.
+      gpg --armor --output "${stage_dir}/${name}.asc" --detach-sig "${name}"
 
-    # Create the checksums
-    gpg --print-md MD5 "${file}" > "${stage_dir}/${name}.md5"
-    shasum "${file}" > "${stage_dir}/${name}.sha"
-  done
+      # Create the checksums
+      gpg --print-md MD5 "${name}" > "${stage_dir}/${name}.md5"
+      shasum "${name}" > "${stage_dir}/${name}.sha"
+    done
+  popd
 }
 
 function zip_artifacts() {
