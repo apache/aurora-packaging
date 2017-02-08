@@ -10,43 +10,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM debian:jessie
+FROM ubuntu:xenial
 
 WORKDIR /aurora
 ENV HOME /aurora
 ENV DEBIAN_FRONTEND noninteractive
 
-# The default httpredir mirror is a common source for flaky docker builds.
-# Use an explicit mirror instead (https://github.com/docker-library/buildpack-deps/issues/40)
-RUN echo \
-   'deb http://mirrors.kernel.org/debian/ jessie main\n \
-    deb http://mirrors.kernel.org/debian/ jessie-updates main\n \
-    deb http://mirrors.kernel.org/debian/ jessie-backports main\n \
-    deb http://security.debian.org jessie/updates main\n' \
-    > /etc/apt/sources.list
-
+# Using gcc-4.8 to ensure ABI for thermos in containers running older distros
 RUN apt-get update && apt-get -y install \
   bison \
   debhelper \
-  dh-systemd \
   devscripts \
+  dh-systemd \
   dpkg-dev \
   curl \
   git \
+  gcc-4.8 \
   libapr1-dev \
   libcurl4-openssl-dev \
-  libffi-dev \
-  libkrb5-dev \
   libsvn-dev \
+  libffi-dev \
   python-all-dev \
   software-properties-common \
-  thrift-compiler
+  libkrb5-dev
 
-RUN apt-get -y -t jessie-backports install openjdk-8-jdk \
-   && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+RUN apt-get -y install openjdk-8-jdk \
+  && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-# TODO (shirchen): explore possiblity of downloading gradle directly from gradle. Issue is that
-# there's already a build-time dep of a package name 'gradle'.
+RUN curl -sSL http://apache.org/dist/thrift/KEYS | gpg --import - && \
+   gpg --export --armor 66B778F9 | apt-key add - && \
+   echo 'deb http://www.apache.org/dist/thrift/debian 0.9.1 main' > /etc/apt/sources.list.d/thrift.list && \
+   apt-get update && \
+   apt-get -y install thrift-compiler=0.9.1
+
 # Install gradle.
 RUN git clone --depth 1 https://github.com/benley/gradle-packaging \
   && cd gradle-packaging \

@@ -22,6 +22,10 @@ tar --strip-components 1 -C . -xf /src.tar.gz
 
 cp -R /specs/debian .
 
+# Xenial tries to convert init and upstart scripts before using systemd units.
+# Avoid conflict by not including them for now.
+rm ./debian/*.upstart ./debian/*.init
+
 DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
 CODENAME=$(lsb_release -cs | tr '[:upper:]' '[:lower:]')
 THIRD_PARTY_REPO="https://svn.apache.org/repos/asf/aurora/3rdparty/"

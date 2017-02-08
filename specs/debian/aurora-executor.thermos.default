@@ -16,3 +16,6 @@
 
 # Listen port for thermos_observer
 OBSERVER_PORT=1338
+
+MESOS_ROOT=/var/lib/mesos
+EXTRA_THERMOS_OBSERVER_ARGS=""

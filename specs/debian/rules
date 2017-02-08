@@ -16,8 +16,10 @@
 # Uncomment for debugging.
 #DH_VERBOSE = 1
 
+TMP     = $(CURDIR)/debian
+
 %:
-	dh $@ --exclude=aurora-scheduler.bat
+	dh $@ --exclude=aurora-scheduler.bat --with=systemd
 
 gradle = $(shell which gradle)
 pants = $(CURDIR)/pants
@@ -42,3 +44,8 @@ __pants_build:
 override_dh_installinit:
 	dh_installinit --name=thermos
 	dh_installinit
+
+override_dh_auto_install:
+	dh_auto_install
+	# Install start up script for aurora-scheduler
+	install -D -m 0755 $(TMP)/aurora-scheduler.startup.sh $(TMP)/aurora-scheduler/usr/bin/aurora-scheduler-startup

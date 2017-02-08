@@ -11,16 +11,17 @@
 # limitations under the License.
 
 [Unit]
-Description=Thermos Observer
+Description=Aurora Thermos Observer
 After=network.target
 Wants=network.target
 
 [Service]
-Type=forking
-IgnoreSIGPIPE=no
-GuessMainPID=no
-ExecStart=/etc/init.d/thermos start
-ExecStop=/etc/init.d/thermos stop
+EnvironmentFile=/etc/default/thermos
+ExecStart=/usr/sbin/thermos_observer \
+   --port=${OBSERVER_PORT} \
+   --mesos-root=${MESOS_ROOT} \
+   --log_to_disk=NONE \
+   --log_to_stderr=google:INFO
 User=root
 Group=root
 Restart=always

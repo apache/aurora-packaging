@@ -16,11 +16,7 @@ After=network.target
 Wants=network.target
 
 [Service]
-Type=forking
-IgnoreSIGPIPE=no
-GuessMainPID=no
-ExecStart=/etc/init.d/aurora-scheduler start
-ExecStop=/etc/init.d/aurora-scheduler stop
+ExecStart=/usr/bin/aurora-scheduler-startup
 User=aurora
 Group=aurora
 Restart=always
