@@ -30,7 +30,7 @@ run_build() {
 
   IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
   echo "Using docker image $IMAGE_NAME"
-  docker build -t "$IMAGE_NAME" "$BUILDER_DIR"
+  docker build --pull -t "$IMAGE_NAME" "$BUILDER_DIR"
 
   docker run \
     -e AURORA_VERSION=$AURORA_VERSION \

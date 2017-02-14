@@ -6,6 +6,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.hostname = "localhost"
 
+  # Mount the entire aurora-packaging folder at /repo
+  config.vm.synced_folder "../../../", "/repo"
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "4096"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
