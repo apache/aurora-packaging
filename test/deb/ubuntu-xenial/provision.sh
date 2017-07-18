@@ -9,7 +9,7 @@ update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 # Mesos dependencies
 apt-get -y install libcurl3 libevent-dev libsvn1 libcurl4-nss-dev
 
-package=mesos_1.1.0-2.0.107.ubuntu1604_amd64.deb
+package=mesos_1.2.0-2.0.3.ubuntu1604_amd64.deb
 wget -c http://repos.mesosphere.com/ubuntu/pool/main/m/mesos/$package
 dpkg -i $package
 
