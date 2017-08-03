@@ -40,7 +40,8 @@ ARGS="--port=${OBSERVER_PORT:-1338}
       --app_daemonize
       --app_pidfile=$PIDFILE
       --log_to_disk=NONE
-      --log_to_stderr=google:INFO"
+      --log_to_stderr=google:INFO
+      ${EXTRA_THERMOS_OBSERVER_ARGS}"
 
 case "$1" in
   start)

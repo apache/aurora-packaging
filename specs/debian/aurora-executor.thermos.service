@@ -21,7 +21,8 @@ ExecStart=/usr/sbin/thermos_observer \
    --port=${OBSERVER_PORT} \
    --mesos-root=${MESOS_ROOT} \
    --log_to_disk=NONE \
-   --log_to_stderr=google:INFO
+   --log_to_stderr=google:INFO \
+   ${EXTRA_THERMOS_OBSERVER_ARGS}
 User=root
 Group=root
 Restart=always

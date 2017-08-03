@@ -24,5 +24,6 @@ script
     --port=${OBSERVER_PORT:-1338} \
     --mesos-root=${MESOS_ROOT:-/var/lib/mesos} \
     --log_to_disk=NONE \
-    --log_to_stderr=google:INFO
+    --log_to_stderr=google:INFO \
+    ${EXTRA_THERMOS_OBSERVER_ARGS}
 end script
