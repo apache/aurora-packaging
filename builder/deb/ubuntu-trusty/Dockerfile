@@ -18,6 +18,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install \
   bison \
+  ca-certificates-java \
   debhelper \
   dh-systemd \
   devscripts \
