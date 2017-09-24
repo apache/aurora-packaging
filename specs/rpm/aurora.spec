@@ -34,7 +34,7 @@
 %endif
 
 %if %{?!GRADLE_VERSION:1}0
-%global GRADLE_VERSION 3.1
+%global GRADLE_VERSION 4.2
 %endif
 
 %if %{?!JAVA_VERSION:!}0
