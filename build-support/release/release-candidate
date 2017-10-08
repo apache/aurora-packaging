@@ -47,7 +47,7 @@ function sign_artifacts() {
 
       # Create the checksums
       gpg --print-md MD5 "${name}" > "${stage_dir}/${name}.md5"
-      shasum "${name}" > "${stage_dir}/${name}.sha"
+      shasum -a 512 "${name}" > "${stage_dir}/${name}.sha512"
     done
   popd
 }
