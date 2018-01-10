@@ -11,7 +11,7 @@ update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 # for the python mesos native bindings.
 aptitude -y install libcurl4-nss-dev libcurl3 libevent-dev libsvn1
 
-package=mesos_1.2.0-2.0.3.debian8_amd64.deb
+package=mesos_1.4.0-2.0.1.debian8_amd64.deb
 wget -c http://repos.mesosphere.com/debian/pool/main/m/mesos/$package
 dpkg -i $package
 

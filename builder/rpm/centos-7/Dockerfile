@@ -28,6 +28,7 @@ RUN yum install -y \
     libcurl-devel \
     libffi-devel \
     openssl \
+    openssl-devel \
     patch \
     python \
     python-devel \

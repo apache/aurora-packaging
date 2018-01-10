@@ -9,9 +9,7 @@ Build-Depends: debhelper (>= 9),
  curl,
  openssl,
  git,
- wget,
- thrift-compiler (>= 0.9.1)
-# thrift-compiler version needs to match the ext.thriftRev value from build.gradle
+ wget
 Section: net
 Standards-Version: 3.9.5
 Homepage: https://aurora.apache.org
@@ -22,7 +20,7 @@ Section: net
 Depends: ${shlibs:Depends}, ${misc:Depends},
  adduser,
  openjdk-8-jre-headless | java8-runtime-headless,
- mesos (>= 1.2.0)
+ mesos (>= 1.4.0)
 Recommends: aurora-tools
 Suggests: aurora-doc
 Description: Apache Aurora scheduler

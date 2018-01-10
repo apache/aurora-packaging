@@ -37,10 +37,10 @@ RUN apt-get update && apt-get -y install \
   libcurl4-openssl-dev \
   libffi-dev \
   libkrb5-dev \
+  libssl-dev \
   libsvn-dev \
   python-all-dev \
-  software-properties-common \
-  thrift-compiler
+  software-properties-common
 
 RUN apt-get -y -t jessie-backports install openjdk-8-jdk \
    && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
