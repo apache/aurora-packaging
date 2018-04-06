@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt-get install --reinstall ca-certificates
 add-apt-repository ppa:openjdk-r/ppa -y
 apt-get update
 apt-get install -y openjdk-8-jre zookeeperd
