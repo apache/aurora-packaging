@@ -85,6 +85,7 @@ BuildRequires: java-%{JAVA_VERSION}-openjdk-devel
 BuildRequires: krb5-devel
 BuildRequires: libcurl-devel
 BuildRequires: openssl
+BuildRequires: openssl-devel
 BuildRequires: patch
 %if 0%{?rhel} && 0%{?rhel} < 7
 BuildRequires: python27
@@ -98,6 +99,7 @@ BuildRequires: tar
 BuildRequires: unzip
 BuildRequires: wget
 BuildRequires: zlib-devel
+BuildRequires: libffi-devel
 
 %if 0%{?rhel} && 0%{?rhel} < 7
 Requires:      daemonize
