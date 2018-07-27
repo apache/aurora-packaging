@@ -33,8 +33,10 @@ RUN apt-get update && apt-get -y install \
   software-properties-common
 
 RUN add-apt-repository -y ppa:openjdk-r/ppa \
+  && add-apt-repository -y ppa:jonathonf/python-2.7 \
   && apt-get update \
   && apt-get -y install openjdk-8-jdk \
+  && apt-get -y install --no-install-recommends python2.7-minimal \
   && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 # Install gradle.

@@ -23,8 +23,8 @@ TMP     = $(CURDIR)/debian
 
 gradle = $(shell which gradle)
 pants = $(CURDIR)/pants
-PANTS_CONFIG_OVERRIDE = ["$(CURDIR)/debian/aurora-pants.ini"]
-export PANTS_CONFIG_OVERRIDE
+PANTS_CONFIG_FILES = $(CURDIR)/debian/aurora-pants.ini
+export PANTS_CONFIG_FILES
 
 override_dh_auto_build: __gradle_build __pants_build
 

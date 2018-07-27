@@ -14,7 +14,7 @@
 
 # Overridable variables;
 %if %{?!AURORA_VERSION:1}0
-%global AURORA_VERSION 0.19.0
+%global AURORA_VERSION 0.21.0
 %endif
 
 %if %{?!AURORA_INTERNAL_VERSION:1}0
@@ -42,7 +42,7 @@
 %endif
 
 %if %{?!MESOS_VERSION:1}0
-%global MESOS_VERSION 1.4.0
+%global MESOS_VERSION 1.5.0
 %endif
 
 %if %{?!PEX_BINARIES:1}0
@@ -178,7 +178,7 @@ unzip gradle-%{GRADLE_VERSION}-bin.zip
 # This avoids building mesos to produce them.
 %{__mkdir_p} %{buildroot}
 %{__cp} %{SOURCE12} %{buildroot}
-export PANTS_CONFIG_OVERRIDE="['%{buildroot}/aurora-pants.ini']"
+export PANTS_CONFIG_FILES="%{buildroot}/aurora-pants.ini"
 
 # Builds Aurora client PEX binaries.
 ./pants binary src/main/python/apache/aurora/kerberos:kaurora
