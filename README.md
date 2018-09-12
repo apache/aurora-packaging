@@ -34,7 +34,7 @@ in order to proceed.
 
 #### Cut a branch and build the binaries
 
-The example below is for the 0.12.0 release where upstream is https://git-wip-us.apache.org/repos/asf/aurora-packaging:
+The example below is for the 0.12.0 release where upstream is https://gitbox.apache.org/repos/asf/aurora-packaging:
 
     git checkout -b 0.12.x upstream/master
 
