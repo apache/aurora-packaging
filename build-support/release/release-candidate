@@ -46,7 +46,6 @@ function sign_artifacts() {
       gpg --armor --output "${stage_dir}/${name}.asc" --detach-sig "${name}"
 
       # Create the checksums
-      gpg --print-md MD5 "${name}" > "${stage_dir}/${name}.md5"
       shasum -a 512 "${name}" > "${stage_dir}/${name}.sha512"
     done
   popd
