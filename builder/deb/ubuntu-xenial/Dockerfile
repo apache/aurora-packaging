@@ -15,6 +15,8 @@ FROM ubuntu:xenial
 WORKDIR /aurora
 ENV HOME /aurora
 ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
 
 # Using gcc-4.8 to ensure ABI for thermos in containers running older distros
 RUN apt-get update && apt-get -y install \
