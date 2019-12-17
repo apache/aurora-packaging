@@ -19,7 +19,6 @@ ROOT_DIR=$(git rev-parse --show-toplevel)
 cd "${ROOT_DIR}"
 
 declare -A DIST_DIRS=(
-  ["ubuntu-trusty"]="${ROOT_DIR}/artifacts/aurora-ubuntu-trusty/dist"
   ["ubuntu-xenial"]="${ROOT_DIR}/artifacts/aurora-ubuntu-xenial/dist"
   ["debian-jessie"]="${ROOT_DIR}/artifacts/aurora-debian-jessie/dist"
   ["centos-7"]="${ROOT_DIR}/artifacts/aurora-centos-7/dist/rpmbuild/RPMS/x86_64"

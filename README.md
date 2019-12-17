@@ -17,13 +17,13 @@ from the Aurora source repository:
 
 2. Run the builder script, providing the distribution platform and the source
    distribution archive you downloaded in (1).  The example below will build
-   Aurora 0.9.0 debs for Ubuntu Trusty.
+   Aurora 0.22.0 debs for Ubuntu Xenial.
 
-        ./build-artifact.sh builder/deb/ubuntu-trusty \
-          ../apache-aurora-0.9.0.tar.gz \
-          0.9.0
+        ./build-artifact.sh builder/deb/ubuntu-xenial \
+          ../apache-aurora-0.22.0.tar.gz \
+          0.22.0
 
-When this completes, debs will be placed in `artifacts/aurora-ubuntu-trusty/dist/`.
+When this completes, debs will be placed in `artifacts/aurora-ubuntu-xenial/dist/`.
 
 ### Creating a release candidate
 
@@ -49,11 +49,11 @@ N.B.: the release-candidate script requires bash 4.x or higher.
 
     ./build-support/release/release-candidate
     Signing artifacts for centos-7...
-    Created archive for centos-7 artifacts at /home/jsirois/dev/aurora/jsirois-aurora-packaging/artifacts/aurora-centos-7/dist/rpmbuild/RPMS/upload.tar.
+    Created archive for centos-7 artifacts at aurora-packaging/artifacts/aurora-centos-7/dist/rpmbuild/RPMS/upload.tar.
     Signing artifacts for debian-jessie...
-    Created archive for debian-jessie artifacts at /home/jsirois/dev/aurora/jsirois-aurora-packaging/artifacts/aurora-debian-jessie/upload.tar.
-    Signing artifacts for ubuntu-trusty...
-    Created archive for ubuntu-trusty artifacts at /home/jsirois/dev/aurora/jsirois-aurora-packaging/artifacts/aurora-ubuntu-trusty/upload.tar.
+    Created archive for debian-jessie artifacts at aurora-packaging/artifacts/aurora-debian-jessie/upload.tar.
+    Signing artifacts for ubuntu-xenial...
+    Created archive for ubuntu-xenial artifacts at aurora-packaging/artifacts/aurora-ubuntu-xenial/upload.tar.
     All artifacts prepared for upload to bintray.
 
 In the bintray UI, create a new version in your release-candidate repo, for example '0.12.0'.  Then,

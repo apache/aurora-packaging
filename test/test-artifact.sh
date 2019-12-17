@@ -44,7 +44,7 @@ case $# in
     echo ' and where DIST_DIR is location within the Vagrant box where packages should be installed from.'
     echo
     echo 'Example:'
-    echo ' ./test/test-artifact.sh test/deb/ubuntu-trusty/ /repo/artifacts/aurora-ubuntu-trusty/dist'
+    echo ' ./test/test-artifact.sh test/deb/ubuntu-xenial/ /repo/artifacts/aurora-ubuntu-xenial/dist'
     exit 1
     ;;
 esac
